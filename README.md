@@ -1,34 +1,21 @@
-# Mushaf
+# Mushaf Monorepo
 
-## Overview
-Mushaf is a comprehensive **Grammar and Vocabulary App** designed to help users learn and master Arabic grammar and vocabulary (especially related to the Quran). 
+Welcome to the central repository for **Mushaf**. This repository contains the mobile, frontend, and backend codebases engineered as a unified monorepo.
 
-This repository is structured as a monorepo, containing all the different components of the project:
-
-- **Android**: The native Android mobile application.
-- **Backend**: The server-side API, database, and business logic.
-- **Frontend**: A web-based interface (e.g., admin panel or web app).
-
-## Tech Stack
-* **Android**: Kotlin, Jetpack Compose (Modern Android Development)
-* **Backend**: *(To be determined)*
-* **Frontend**: *(To be determined)*
+We utilize **Nx** as our monorepo orchestrator to drastically improve build times, ensure consistent tooling, and allow code sharing across different parts of the stack.
 
 ## Getting Started
+> [!IMPORTANT]
+> This project requires **Node.js v20+**. If you have `nvm` installed, run `nvm use` in the root directory.
 
-### Android App
-To run the Android app locally:
-1. Open the `Android` directory in Android Studio.
-2. Let Gradle sync and build the project.
-3. Run the application on an emulator or a physical device.
+To get acquainted with this repository, please review the newly organized documentation in the `.agents` directory:
 
-### Backend
-1. Navigate to the `backend` directory.
-2. *(Add specific instructions here on how to setup the backend)*
 
-### Frontend
-1. Navigate to the `frontend` directory.
-2. *(Add specific instructions here on how to setup the frontend)*
+- **[.agents/CONTEXT.md](./.agents/CONTEXT.md)**: Details the architectural boundaries, tech stack (React + Fastify + Android), and folder structure.
+- **[.agents/INSTRUCTIONS.md](./.agents/INSTRUCTIONS.md)**: Contains all the essential commands (`npm install`, `npx nx serve`, etc.) required to boot up the environment and maintain the project.
 
-## Contributing
-*Feel free to add contribution guidelines here as the project grows.*
+## Tech Stack
+- **Frontend**: React, Vite, TypeScript
+- **Backend**: Node.js, Fastify, TypeScript
+- **Mobile**: Android (Independent Native)
+- **Monorepo Build System**: Nx
