@@ -80,8 +80,30 @@ npx nx g @nx/js:library shared-types --directory=libs/shared-types
 npx nx g @nx/react:component my-component --project=mushaf_frontend
 ```
 
+## Environment Variables
+
+### Backend (`mushaf_backend`)
+- `MONGODB_URI`: Connection string for MongoDB (Atlas).
+- `PORT`: (Optional) Defaults to 3000.
+
+### Frontend (`mushaf_frontend`)
+- `VITE_API_URL`: The full URL of the backend (e.g., `https://mushaf-api.onrender.com`).
+- `ENABLE_COREPACK`: Set to `1` in CI (Vercel) to enable Yarn v4.
+
+## Deployment
+
+### Deploying to Vercel
+Custom settings required in the Vercel dashboard:
+- **Build Command**: `npx nx build mushaf_frontend --outputPath=./out`
+- **Output Directory**: `out`
+- **Install Command**: `corepack yarn install --no-immutable`
+
+### Deploying to Render
+- **Build Command**: `yarn install && npx nx build mushaf_backend`
+- **Start Command**: `node dist/apps/backend/mushaf_backend/main.js`
+
 ## Troubleshooting
-If you encounter `No such file or directory: nx`, ensure:
-1. You have run `yarn install`.
-2. You are using `npx nx` which uses the local binary in `node_modules/.bin/nx`.
-3. Your Node version is v20+ (`node -v`).
+If you encounter `No Output Directory found` on Vercel:
+1. Ensure `vercel.json` is at the root.
+2. Verify the `--outputPath=./out` flag is in the Build Command.
+3. Check that `VITE_API_URL` doesn't have a trailing slash.
