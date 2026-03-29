@@ -1,0 +1,10 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npx nx build mushaf_backend"
+  },
+  "deploy": {
+    "startCommand": "node dist/apps/backend/mushaf_backend/main.js"
+  }
+}
