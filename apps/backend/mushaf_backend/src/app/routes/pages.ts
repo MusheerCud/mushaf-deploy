@@ -100,4 +100,35 @@ export default async function pagesRoutes(fastify: FastifyInstance) {
       return reply.status(200).send(page);
     }
   );
+
+  /**
+   * DELETE /pages/:pageNumber
+   * Delete a parsed page from MongoDB
+   */
+  fastify.delete(
+    '/pages/:pageNumber',
+    async (
+      request: FastifyRequest<{ Params: { pageNumber: string } }>,
+      reply: FastifyReply
+    ) => {
+      const pageNumber = parseInt(request.params.pageNumber, 10);
+
+      if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > 604) {
+        return reply
+          .status(400)
+          .send({ error: 'pageNumber must be an integer between 1 and 604' });
+      }
+
+      try {
+        const deleted = await Page.findOneAndDelete({ pageNumber });
+        if (!deleted) {
+          return reply.status(404).send({ error: `Page ${pageNumber} not found` });
+        }
+        return reply.status(200).send({ success: true, message: `Page ${pageNumber} deleted` });
+      } catch (err: any) {
+        fastify.log.error(err);
+        return reply.status(500).send({ error: 'Internal server error deleting page' });
+      }
+    }
+  );
 }

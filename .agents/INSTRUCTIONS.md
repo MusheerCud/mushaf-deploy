@@ -34,6 +34,10 @@ npx nx serve mushaf_frontend
 npx nx run-many -t serve -p mushaf_frontend mushaf_backend
 ```
 
+## Design Principles
+- **Aesthetics First:** We use a custom, robust CSS implementation over extensive utility libraries where possible to guarantee pixel-perfect responsive alignments.
+- **Light Theme Enforced:** Because `pg.docx` uploads naturally include literal `#000000` black hex colors for specific word-parts, the UI must strictly remain a Light Theme with white/neutral glassmorphism panels to preserve readability.
+
 ## Building Applications
 To compile the applications for production:
 

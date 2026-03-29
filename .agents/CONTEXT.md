@@ -48,10 +48,15 @@ A nested Mongoose schema is used to isolate word-level hex colors exactly as def
 
 ### 2. Backend API (`mushaf_backend`)
 Fastify runs on port 3000. Uses a raw XML parser (`unzipper` + `xml2js`) with `preserveChildrenOrder` to safely navigate Word document XML (`w:p`, `w:tbl`).
-- `POST /pages/:pageNumber` (multipart/form-data upload)
-- `GET /pages/:pageNumber`
+- `POST /pages/:pageNumber` (multipart data upload, parses docx, upserts MongoDB)
+- `GET /pages/:pageNumber` (fetches a single fully parsed page json)
+- `DELETE /pages/:pageNumber` (removes a parsed page from MongoDB)
 
 ### 3. Frontend (`mushaf_frontend`)
-A React + Vite application running on port 4200. Features a modern glassmorphic UI.
-- **UploadPage**: Uploads `.docx` pages to the backend.
-- **ViewPage**: Fetches pages and elegantly renders the Arabic segments inline with the Tamil segments, strictly adhering to the hex `.color` stored deep in the database arrays.
+A React + Vite application running on port 4200. Features an elegant glassmorphic **Light Theme** UI (chosen over Dark Theme to properly render black `#000000` text nodes inherited from docx runs).
+- **Sidebar Layout** (`App.tsx`): Persistent left-navigation to swap between Uploading and Viewing.
+- **UploadPage**: Uploads `.docx` pages specifying the page number.
+- **ViewPage**: 
+  - Dynamic **Search** bar to quickly look up any `pageNumber`.
+  - Inline **Delete** action to securely wipe the active page from the DB.
+  - Elegantly renders Arabic segments inline with Tamil segments, adhering strictly to the sub-word hex `.color` stored in the DB.

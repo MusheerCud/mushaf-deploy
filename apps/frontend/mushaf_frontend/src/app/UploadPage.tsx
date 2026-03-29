@@ -17,7 +17,8 @@ export function UploadPage({ onPageSelected }: { onPageSelected: (page: number) 
     formData.append('file', file);
 
     try {
-      const res = await fetch(`http://localhost:3000/pages/${pageNumber}`, {
+      const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const res = await fetch(`${BASE_URL}/pages/${pageNumber}`, {
         method: 'POST',
         body: formData,
       });
