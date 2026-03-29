@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx nx build mushaf_frontend && ls -R .",
-  "outputDirectory": "dist",
+  "buildCommand": "npx nx build mushaf_frontend && mv dist/apps/frontend ./out",
+  "outputDirectory": "out",
   "installCommand": "corepack yarn install --no-immutable"
 }
