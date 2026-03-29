@@ -14,17 +14,20 @@ yarn install
 ```
 
 ## Running Applications Locally
-We recommend using **`npx nx`** to run commands, as it reliably finds the local dependencies in your `node_modules`.
+We recommend using **`npx nx`** to run commands, as it reliably finds the local dependencies in your `node_modules` and bypasses system Yarn incompatibilities (e.g. `No such file or directory: 'serve:backend'`).
 
-**Start the React Frontend:**
-```bash
-npx nx serve mushaf_frontend
-```
-
-**Start the Fastify Backend:**
+**1. Environment Variables:**
+The backend requires a `MONGODB_URI` to connect to MongoDB Atlas. Ensure `apps/backend/mushaf_backend/.env` exists. Start backend via node explicitly loading the env:
 ```bash
 npx nx serve mushaf_backend
 ```
+*(Backend runs on http://localhost:3000)*
+
+**2. Start the React Frontend:**
+```bash
+npx nx serve mushaf_frontend
+```
+*(Frontend runs on http://localhost:4200)*
 
 **Start Multiple Apps Simultaneously:**
 ```bash

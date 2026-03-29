@@ -1,11 +1,20 @@
-// Uncomment this line to use CSS modules
-// import styles from './app.module.css';
-import NxWelcome from './nx-welcome';
+import { useState } from 'react';
+import { UploadPage } from './UploadPage';
+import { ViewPage } from './ViewPage';
 
 export function App() {
+  const [viewingPageNumber, setViewingPageNumber] = useState<number | null>(null);
+
   return (
-    <div>
-      <NxWelcome title="frontend" />
+    <div className="app-container">
+      {viewingPageNumber === null ? (
+        <UploadPage onPageSelected={setViewingPageNumber} />
+      ) : (
+        <ViewPage 
+          pageNumber={viewingPageNumber} 
+          onBack={() => setViewingPageNumber(null)} 
+        />
+      )}
     </div>
   );
 }
