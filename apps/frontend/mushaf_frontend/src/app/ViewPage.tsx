@@ -15,6 +15,7 @@ interface Line {
   arabicText: string;
   arabicSegments: Segment[];
   tamilSegments: Segment[];
+  tagSegments?: Segment[];
 }
 interface Page {
   pageNumber: number;
@@ -66,9 +67,11 @@ export function ViewPage({ initialPage = 1 }: { initialPage?: number }) {
     setError(null);
     try {
       const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      console.log('Sending DELETE request to:', `${BASE_URL}/pages/${pageNumber}`);
       const res = await fetch(`${BASE_URL}/pages/${pageNumber}`, {
         method: 'DELETE',
       });
+      console.log('DELETE response status:', res.status);
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
         throw new Error(errData.error || 'Failed to delete page');
@@ -84,27 +87,36 @@ export function ViewPage({ initialPage = 1 }: { initialPage?: number }) {
 
   return (
     <div className="fade-in">
-      <div className="header" style={{ marginBottom: '2rem' }}>
-        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <label style={{ color: 'var(--text-secondary)' }}>View Page:</label>
-          <input 
-            type="number" 
-            min="1" 
-            max="604" 
-            value={searchInput} 
-            onChange={(e) => setSearchInput(parseInt(e.target.value, 10))} 
-            style={{ width: '100px' }}
-          />
-          <button type="submit" className="primary">Search</button>
-        </form>
+      <div className="header">
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <label style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Page:</label>
+            <input 
+              type="number" 
+              min="1" 
+              max="604" 
+              value={searchInput} 
+              onChange={(e) => setSearchInput(parseInt(e.target.value, 10))} 
+              style={{ width: '80px', textAlign: 'center' }}
+            />
+            <button type="submit" className="primary">Search</button>
+          </form>
+          
+          {page && (
+            <button 
+              onClick={handleDelete} 
+              className="delete-btn"
+              style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+            >
+              🗑️ Delete
+            </button>
+          )}
+        </div>
         
         {page && (
-          <button 
-            onClick={handleDelete} 
-            style={{ background: 'rgba(248, 81, 73, 0.1)', color: 'var(--error-color)', borderColor: 'rgba(248, 81, 73, 0.4)' }}
-          >
-            🗑️ Delete Page
-          </button>
+          <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            Showing Page <strong>{page.pageNumber}</strong>
+          </div>
         )}
       </div>
 
@@ -134,6 +146,7 @@ export function ViewPage({ initialPage = 1 }: { initialPage?: number }) {
               <div className="segments-grid">
                 {line.arabicSegments.map((arabSeg, i) => {
                   const tamilSeg = line.tamilSegments.find(ts => ts.order === arabSeg.order);
+                  const tagSeg = line.tagSegments?.find(ts => ts.order === arabSeg.order);
                   return (
                     <div key={i} className="segment-column">
                       <div className="segment-cell arabic">
@@ -148,6 +161,16 @@ export function ViewPage({ initialPage = 1 }: { initialPage?: number }) {
                         <div className="segment-cell tamil">
                           {tamilSeg.runs.map((r, ri) => (
                             <span key={ri} style={{ color: r.color || 'inherit' }}>
+                              {r.text}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {tagSeg && tagSeg.runs.length > 0 && (
+                        <div className="segment-cell tag" style={{ background: 'rgba(235, 87, 87, 0.05)', borderColor: 'rgba(235, 87, 87, 0.2)' }}>
+                          {tagSeg.runs.map((r, ri) => (
+                            <span key={ri} style={{ color: r.color || '#EB5757', fontWeight: 600 }}>
                               {r.text}
                             </span>
                           ))}

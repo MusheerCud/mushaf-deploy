@@ -20,6 +20,7 @@ export interface Line {
   arabicText: string;   // full Arabic line (paragraph above the table)
   arabicSegments: Segment[];
   tamilSegments: Segment[];
+  tagSegments: Segment[];
   translations: Translation[];
 }
 

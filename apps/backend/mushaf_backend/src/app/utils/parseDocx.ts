@@ -212,6 +212,8 @@ export async function parseDocx(
           const arabicSegments = buildSegments(rows[0]);
           const tamilSegments =
             rows.length >= 2 ? buildSegments(rows[1]) : [];
+          const tagSegments =
+            rows.length >= 3 ? buildSegments(rows[2]) : [];
 
           lines.push({
             lineNumber,
@@ -219,6 +221,7 @@ export async function parseDocx(
             arabicText: lastNonEmptyPara,
             arabicSegments,
             tamilSegments,
+            tagSegments,
             translations: [],
           });
         }

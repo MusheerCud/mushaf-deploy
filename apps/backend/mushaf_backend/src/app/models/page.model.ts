@@ -34,6 +34,7 @@ const LineSchema = new Schema(
     arabicText: { type: String, required: true },    // full Arabic line
     arabicSegments: { type: [SegmentSchema], default: [] },
     tamilSegments: { type: [SegmentSchema], default: [] },
+    tagSegments: { type: [SegmentSchema], default: [] },
     translations: { type: [TranslationSchema], default: [] },
   },
   { _id: false }
