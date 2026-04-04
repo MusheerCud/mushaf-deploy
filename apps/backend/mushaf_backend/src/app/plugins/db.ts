@@ -9,10 +9,11 @@ async function dbPlugin(fastify: FastifyInstance) {
     throw new Error('MONGODB_URI environment variable is not set');
   }
 
+  fastify.log.info('Connecting to MongoDB...');
   await mongoose.connect(uri, {
-    serverSelectionTimeoutMS: 10000, // 10 seconds timeout
+    serverSelectionTimeoutMS: 20000, // Increased to 20 seconds
   });
-  fastify.log.info(`MongoDB connected: ${uri}`);
+  fastify.log.info('MongoDB connected successfully');
 
   fastify.addHook('onClose', async () => {
     await mongoose.disconnect();
