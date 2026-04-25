@@ -18,6 +18,12 @@ export default async function pagesRoutes(fastify: FastifyInstance) {
    */
   fastify.post(
     '/pages/:pageNumber',
+    {
+      preHandler: [
+        fastify.authenticate,
+        fastify.requirePermission('upload'),
+      ],
+    },
     async (
       request: FastifyRequest<{ Params: { pageNumber: string } }>,
       reply: FastifyReply
@@ -107,6 +113,12 @@ export default async function pagesRoutes(fastify: FastifyInstance) {
    */
   fastify.delete(
     '/pages/:pageNumber',
+    {
+      preHandler: [
+        fastify.authenticate,
+        fastify.requirePermission('delete'),
+      ],
+    },
     async (
       request: FastifyRequest<{ Params: { pageNumber: string } }>,
       reply: FastifyReply
