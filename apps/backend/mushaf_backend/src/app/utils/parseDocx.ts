@@ -53,6 +53,16 @@ function extractRunsFromParagraph(para: Record<string, unknown>): Run[] {
       } else if (t && typeof t === 'object') {
         // xml2js with explicitCharkey: the text is inside "_"
         text = (t as Record<string, string>)['_'] ?? '';
+
+        // xml2js (sax-js) drops text nodes that contain ONLY whitespace.
+        // If this <w:t> had xml:space="preserve" but no text was captured,
+        // it was purely spaces (typically a single space between words).
+        if (!text) {
+          const attrs = (t as Record<string, any>)['$'];
+          if (attrs && attrs['xml:space'] === 'preserve') {
+            text = ' ';
+          }
+        }
       }
       if (text) {
         runs.push({ text, color });
