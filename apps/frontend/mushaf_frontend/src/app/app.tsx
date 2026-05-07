@@ -10,6 +10,7 @@ import { ViewPage } from './ViewPage';
 function AppInner() {
   const { isAuthenticated, isLoading, user, logout, hasPermission } = useAuth();
   const [activeTab, setActiveTab] = useState<'upload' | 'view'>('view');
+  const [targetPage, setTargetPage] = useState(1);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [authView, setAuthView] = useState<'login' | 'signup'>('login');
 
@@ -91,9 +92,12 @@ function AppInner() {
       <main className="main-content">
         <div className="app-container">
           {activeTab === 'upload' && hasPermission('upload') && (
-            <UploadPage onPageSelected={() => setActiveTab('view')} />
+            <UploadPage onPageSelected={(p) => {
+              setTargetPage(p);
+              setActiveTab('view');
+            }} />
           )}
-          {activeTab === 'view' && <ViewPage initialPage={1} />}
+          {activeTab === 'view' && <ViewPage initialPage={targetPage} />}
         </div>
       </main>
     </div>
