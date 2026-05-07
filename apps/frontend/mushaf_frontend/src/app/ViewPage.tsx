@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 // Type definitions matching backend schema
 interface Run {
@@ -23,6 +24,7 @@ interface Page {
 }
 
 export function ViewPage({ initialPage = 1 }: { initialPage?: number }) {
+  const { token } = useAuth();
   const [pageNumber, setPageNumber] = useState(initialPage);
   const [searchInput, setSearchInput] = useState(initialPage);
   const [page, setPage] = useState<Page | null>(null);
@@ -70,6 +72,9 @@ export function ViewPage({ initialPage = 1 }: { initialPage?: number }) {
       console.log('Sending DELETE request to:', `${BASE_URL}/pages/${pageNumber}`);
       const res = await fetch(`${BASE_URL}/pages/${pageNumber}`, {
         method: 'DELETE',
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
       });
       console.log('DELETE response status:', res.status);
       if (!res.ok) {

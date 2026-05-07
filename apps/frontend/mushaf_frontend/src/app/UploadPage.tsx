@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useAuth } from './AuthContext';
 
 export function UploadPage({ onPageSelected }: { onPageSelected: (page: number) => void }) {
+  const { token } = useAuth();
   const [pageNumber, setPageNumber] = useState(1);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,6 +22,9 @@ export function UploadPage({ onPageSelected }: { onPageSelected: (page: number) 
       const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
       const res = await fetch(`${BASE_URL}/pages/${pageNumber}`, {
         method: 'POST',
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
         body: formData,
       });
 

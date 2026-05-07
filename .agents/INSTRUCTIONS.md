@@ -34,6 +34,11 @@ npx nx serve mushaf_frontend
 npx nx run-many -t serve -p mushaf_frontend mushaf_backend
 ```
 
+**3. Authentication Setup:**
+The application uses JWT-based authentication. Ensure `JWT_SECRET` is set in the backend `.env` file.
+- The **first user** to register via the frontend automatically becomes an `admin` with full permissions (`view`, `upload`, `delete`, `manage_users`).
+- Subsequent users are assigned the `user` role with read-only permissions (`view`).
+
 ## Design Principles
 - **Aesthetics First:** We use a custom, robust CSS implementation over extensive utility libraries where possible to guarantee pixel-perfect responsive alignments.
 - **Light Theme Enforced:** Because `pg.docx` uploads naturally include literal `#000000` black hex colors for specific word-parts, the UI must strictly remain a Light Theme with white/neutral glassmorphism panels to preserve readability.
@@ -84,6 +89,7 @@ npx nx g @nx/react:component my-component --project=mushaf_frontend
 
 ### Backend (`mushaf_backend`)
 - `MONGODB_URI`: Connection string for MongoDB (Atlas).
+- `JWT_SECRET`: Secret key used for signing JSON Web Tokens. Required for authentication to work.
 - `PORT`: (Optional) Defaults to 3000.
 
 ### Frontend (`mushaf_frontend`)
